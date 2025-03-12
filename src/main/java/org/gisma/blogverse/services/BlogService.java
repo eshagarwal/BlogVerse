@@ -3,6 +3,7 @@ package org.gisma.blogverse.services;
 import org.gisma.blogverse.models.Blog;
 import org.gisma.blogverse.services.repository.BlogRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import java.util.List;
 import java.util.Optional;
@@ -61,5 +62,10 @@ public class BlogService {
             return true;
         }
         return false;
+    }
+
+    // Fetch the 5 most recent blogs
+    public List<Blog> getRecentBlogs() {
+        return blogRepository.findAll(Sort.by(Sort.Order.desc("createdAt"))).stream().limit(5).collect(Collectors.toList());
     }
 }
