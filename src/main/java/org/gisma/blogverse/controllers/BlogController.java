@@ -69,6 +69,13 @@ public class BlogController {
         return ResponseEntity.ok(blogs);
     }
 
+    // Fetch the 5 most recent blogs
+    @GetMapping("/recent")
+    public ResponseEntity<List<Blog>> getRecentBlogs() {
+        List<Blog> blogs = blogService.getRecentBlogs();
+        return blogs.isEmpty() ? ResponseEntity.notFound().build() : ResponseEntity.ok(blogs);
+    }
+
     // Update a blog by ID
     @PutMapping("/{id}")
     public ResponseEntity<String> updateBlog(@PathVariable String id, @RequestBody Blog blogDetails) {
