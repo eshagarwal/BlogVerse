@@ -16,7 +16,7 @@ public class BlogController {
     @Autowired
     private BlogService blogService;
 
-    // Create a new blog
+    // Add a new blog
     @PostMapping
     public ResponseEntity<String> createBlog(@RequestBody Blog blog) {
         if (blog.getTitle() == null || blog.getTitle().isEmpty()) {
@@ -35,31 +35,31 @@ public class BlogController {
         return ResponseEntity.status(HttpStatus.CREATED).body("Blog created successfully with ID: " + createdBlog.getId());
     }
 
-    // Retrieve all blogs
+    // Get all blogs
     @GetMapping
     public List<Blog> getAllBlogs() {
         return blogService.getAllBlogs();
     }
 
-    // Fetch a specific blog by ID
+    // Get a blog by ID
     @GetMapping("/{id}")
     public ResponseEntity<?> getBlogById(@PathVariable String id) {
         Optional<Blog> blog = blogService.getBlogById(id);
         if (blog.isPresent()) {
-            return ResponseEntity.ok(blog.get()); // Return the blog object if found
+            return ResponseEntity.ok(blog.get());
         } else {
-            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Blog with ID " + id + " does not exist."); // Return error message if not found
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Blog with ID " + id + " does not exist.");
         }
     }
 
-    // Fetch all available categories
+    // Get all the available categories
     @GetMapping("/categories")
     public ResponseEntity<List<String>> getAllCategories() {
         List<String> categories = blogService.getAllCategories();
         return categories.isEmpty() ? ResponseEntity.notFound().build() : ResponseEntity.ok(categories);
     }
 
-    // Fetch blogs by category
+    // Get blogs by category
     @GetMapping("/category/{category-name}")
     public ResponseEntity<Object> getBlogsByCategory(@PathVariable("category-name") String category) {
         List<Blog> blogs = blogService.getBlogsByCategory(category);
@@ -69,7 +69,7 @@ public class BlogController {
         return ResponseEntity.ok(blogs);
     }
 
-    // Fetch the 5 most recent blogs
+    // Get the 5 most recent blogs
     @GetMapping("/recent")
     public ResponseEntity<List<Blog>> getRecentBlogs() {
         List<Blog> blogs = blogService.getRecentBlogs();
