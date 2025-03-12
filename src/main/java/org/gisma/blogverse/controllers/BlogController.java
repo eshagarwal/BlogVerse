@@ -1,6 +1,7 @@
 package org.gisma.blogverse.controllers;
 
 import org.gisma.blogverse.models.Blog;
+import org.gisma.blogverse.models.Comment;
 import org.gisma.blogverse.services.BlogService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -111,6 +112,17 @@ public class BlogController {
             return ResponseEntity.ok("Blog " + id + " deleted successfully");
         } else {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Blog with ID " + id + " does not exist");
+        }
+    }
+
+    // Add a comment
+    @PostMapping("/{id}/comments")
+    public ResponseEntity<String> addComment(@PathVariable String id, @RequestBody Comment comment) {
+        try {
+            blogService.addComment(id, comment);
+            return ResponseEntity.ok("Comment added successfully!");
+        } catch (RuntimeException e) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(e.getMessage());
         }
     }
 }
