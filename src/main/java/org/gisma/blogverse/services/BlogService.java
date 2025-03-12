@@ -1,6 +1,7 @@
 package org.gisma.blogverse.services;
 
 import org.gisma.blogverse.models.Blog;
+import org.gisma.blogverse.models.Comment;
 import org.gisma.blogverse.services.repository.BlogRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Sort;
@@ -66,13 +67,25 @@ public class BlogService {
         return false;
     }
 
-    // Fetch the 5 most recent blogs
+    // Get the 5 most recent blogs
     public List<Blog> getRecentBlogs() {
         return blogRepository.findAll(Sort.by(Sort.Order.desc("createdAt"))).stream().limit(5).collect(Collectors.toList());
     }
 
-    // Fetch blogs within the given date range
+    // Get blogs within the date range
     public List<Blog> getBlogsByDateRange(LocalDateTime startDate, LocalDateTime endDate) {
         return blogRepository.findByCreatedAtBetween(startDate, endDate);
+    }
+
+    // Add a comment
+    public void addComment(String blogId, Comment comment) {
+        Optional<Blog> blogOptional = blogRepository.findById(blogId);
+        if (blogOptional.isPresent()) {
+            Blog blog = blogOptional.get();
+            blog.getComments().add(comment);
+            blogRepository.save(blog);
+        } else {
+            throw new RuntimeException("Blog not found");
+        }
     }
 }
