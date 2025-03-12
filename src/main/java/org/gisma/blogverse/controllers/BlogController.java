@@ -125,4 +125,15 @@ public class BlogController {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body(e.getMessage());
         }
     }
+
+    // Get all comments for a blog
+    @GetMapping("/{id}/comments")
+    public ResponseEntity<?> getComments(@PathVariable String id) {
+        List<Comment> comments = blogService.getCommentsByBlogId(id);
+        if (comments == null || comments.isEmpty()) {
+            return ResponseEntity.status(HttpStatus.OK).body("No comments on this blog.");
+        }
+        return ResponseEntity.ok(comments);
+    }
+
 }
