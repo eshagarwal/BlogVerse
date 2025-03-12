@@ -28,7 +28,7 @@ public class BlogService {
 
     public List<String> getAllCategories() {
         // get all blogs with the category field
-        List<Blog> blogs = blogRepository.findDistinctCategoryBy();
+        List<Blog> blogs = blogRepository.findCategoryBy();
 
         // Extract the category names from the Blog objects and return only values
         return blogs.stream()

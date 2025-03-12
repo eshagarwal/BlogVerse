@@ -8,7 +8,7 @@ import java.util.List;
 public interface BlogRepository extends MongoRepository<Blog, String> {
     // Fetch all available categories
     @Query(value = "{}", fields = "{ 'category' : 1 }")  // fetch the category field only
-    List<Blog> findDistinctCategoryBy();
+    List<Blog> findCategoryBy();
 
     // Fetch blogs by category
     List<Blog> findByCategory(String category);
