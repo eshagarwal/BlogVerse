@@ -9,10 +9,10 @@
         <relativePath/> <!-- lookup parent from repository -->
     </parent>
     <groupId>org.gisma</groupId>
-    <artifactId>SochVichaar</artifactId>
+    <artifactId>BlogVerse</artifactId>
     <version>0.0.1-SNAPSHOT</version>
-    <name>SochVichaar</name>
-    <description>SochVichaar</description>
+    <name>BlogVerse</name>
+    <description>BlogVerse</description>
     <url/>
     <licenses>
         <license/>

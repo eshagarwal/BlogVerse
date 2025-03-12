@@ -1,4 +1,4 @@
-package org.gisma.sochvichaar;
+package org.gisma.blogverse;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;

@@ -1,13 +1,13 @@
-package org.gisma.sochvichaar;
+package org.gisma.blogverse;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 @SpringBootApplication
-public class SochVichaarApplication {
+public class BlogVerseApplication {
 
     public static void main(String[] args) {
-        SpringApplication.run(SochVichaarApplication.class, args);
+        SpringApplication.run(BlogVerseApplication.class, args);
     }
 
 }

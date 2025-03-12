@@ -1,6 +1,6 @@
-package org.gisma.sochvichaar.models;
+package org.gisma.blogverse.models;
 
-import org.gisma.sochvichaar.exceptions.BadArgumentException;
+import org.gisma.blogverse.exceptions.BadArgumentException;
 
 public record Message(String message) {
     public Message {

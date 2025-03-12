@@ -1,6 +1,6 @@
-package org.gisma.sochvichaar.controllers;
+package org.gisma.blogverse.controllers;
 
-import org.gisma.sochvichaar.models.Message;
+import org.gisma.blogverse.models.Message;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
