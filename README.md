@@ -12,5 +12,4 @@
 | **GET**    | `/blogs/most-commented`                            | Fetch blogs with the highest number of comments |
 | **POST**   | `/blogs/{id}/comments`                             | Add a comment to a blog                         |
 | **GET**    | `/blogs/{id}/comments`                             | Retrieve all comments for a blog                |
-| **POST**   | `/blogs/{id}/comments/{commentId}/report`          | Report an inappropriate comment                 |
 | **POST**   | `/blogs/{id}/save`                                 | Save/bookmark a blog                            |
