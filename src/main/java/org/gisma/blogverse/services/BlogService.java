@@ -5,6 +5,8 @@ import org.gisma.blogverse.services.repository.BlogRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
+
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -67,5 +69,10 @@ public class BlogService {
     // Fetch the 5 most recent blogs
     public List<Blog> getRecentBlogs() {
         return blogRepository.findAll(Sort.by(Sort.Order.desc("createdAt"))).stream().limit(5).collect(Collectors.toList());
+    }
+
+    // Fetch blogs within the given date range
+    public List<Blog> getBlogsByDateRange(LocalDateTime startDate, LocalDateTime endDate) {
+        return blogRepository.findByCreatedAtBetween(startDate, endDate);
     }
 }
