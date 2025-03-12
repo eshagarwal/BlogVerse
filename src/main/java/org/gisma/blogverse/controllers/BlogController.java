@@ -6,6 +6,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
 
@@ -74,6 +76,21 @@ public class BlogController {
     public ResponseEntity<List<Blog>> getRecentBlogs() {
         List<Blog> blogs = blogService.getRecentBlogs();
         return blogs.isEmpty() ? ResponseEntity.notFound().build() : ResponseEntity.ok(blogs);
+    }
+
+    // Fetch blogs within a given date range
+    @GetMapping("/daterange")
+    public ResponseEntity<List<Blog>> getBlogsByDateRange(@RequestParam("start") String start, @RequestParam("end") String end) {
+        try {
+            LocalDateTime startDate = LocalDateTime.parse(start); // Parse the string to LocalDateTime
+            LocalDateTime endDate = LocalDateTime.parse(end);
+
+            List<Blog> blogs = blogService.getBlogsByDateRange(startDate, endDate);
+
+            return blogs.isEmpty() ? ResponseEntity.notFound().build() : ResponseEntity.ok(blogs);
+        } catch (Exception e) {
+            return ResponseEntity.badRequest().body(null);  // Return bad request if date parsing fails
+        }
     }
 
     // Update a blog by ID
