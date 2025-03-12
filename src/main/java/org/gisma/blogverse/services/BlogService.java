@@ -94,4 +94,9 @@ public class BlogService {
         Optional<Blog> blog = blogRepository.findById(blogId);
         return blog.map(Blog::getComments).orElse(null);
     }
+
+    // Get the most commented blogs
+    public List<Blog> getMostCommentedBlogs() {
+        return blogRepository.findTop5ByMostComments();
+    }
 }
