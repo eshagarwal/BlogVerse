@@ -20,7 +20,6 @@ public class Blog {
 
     @CreatedDate
     private LocalDateTime createdAt;
-//    private List<String> comments;
     private List<Comment> comments = new ArrayList<>();
 
     // Constructors
