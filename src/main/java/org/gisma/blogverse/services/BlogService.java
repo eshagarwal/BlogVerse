@@ -88,4 +88,10 @@ public class BlogService {
             throw new RuntimeException("Blog not found");
         }
     }
+
+    // Get comments by blog ID
+    public List<Comment> getCommentsByBlogId(String blogId) {
+        Optional<Blog> blog = blogRepository.findById(blogId);
+        return blog.map(Blog::getComments).orElse(null);
+    }
 }
