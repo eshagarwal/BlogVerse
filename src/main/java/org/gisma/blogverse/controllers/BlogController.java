@@ -52,15 +52,20 @@ public class BlogController {
         }
     }
 
+    // Fetch all available categories
+    @GetMapping("/categories")
+    public ResponseEntity<List<String>> getAllCategories() {
+        List<String> categories = blogService.getAllCategories();
+        return categories.isEmpty() ? ResponseEntity.notFound().build() : ResponseEntity.ok(categories);
+    }
+
     // Fetch blogs by category
     @GetMapping("/category/{category-name}")
     public ResponseEntity<Object> getBlogsByCategory(@PathVariable("category-name") String category) {
         List<Blog> blogs = blogService.getBlogsByCategory(category);
         if (blogs.isEmpty()) {
-            // If no blogs exist for the given category, return a custom message
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Category name does not exist.");
         }
-        // Return the list of blogs if found
         return ResponseEntity.ok(blogs);
     }
 

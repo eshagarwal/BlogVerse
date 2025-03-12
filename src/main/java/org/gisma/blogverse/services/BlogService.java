@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Service
 public class BlogService {
@@ -23,6 +24,17 @@ public class BlogService {
 
     public Optional<Blog> getBlogById(String id) {
         return blogRepository.findById(id);
+    }
+
+    public List<String> getAllCategories() {
+        // get all blogs with the category field
+        List<Blog> blogs = blogRepository.findDistinctCategoryBy();
+
+        // Extract the category names from the Blog objects and return only values
+        return blogs.stream()
+                .map(Blog::getCategory)
+                .distinct()
+                .collect(Collectors.toList());
     }
 
     public List<Blog> getBlogsByCategory(String category) {
