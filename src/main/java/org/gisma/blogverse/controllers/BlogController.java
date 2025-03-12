@@ -9,6 +9,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.time.LocalDateTime;
+import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
 
@@ -134,6 +135,16 @@ public class BlogController {
             return ResponseEntity.status(HttpStatus.OK).body("No comments on this blog.");
         }
         return ResponseEntity.ok(comments);
+    }
+
+    // Get the most commented blogs
+    @GetMapping("/most-commented")
+    public ResponseEntity<List<Blog>> getMostCommentedBlogs() {
+        List<Blog> blogs = blogService.getMostCommentedBlogs();
+        if (blogs.isEmpty()) {
+            return ResponseEntity.status(HttpStatus.OK).body(Collections.emptyList());
+        }
+        return ResponseEntity.ok(blogs);
     }
 
 }
