@@ -8,7 +8,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
-@Document(collection = "blogs") // Maps this model to the "blogs" collection in MongoDB
+@Document(collection = "blogs")
 public class Blog {
 
     @Id
@@ -22,7 +22,6 @@ public class Blog {
     private LocalDateTime createdAt;
     private List<Comment> comments = new ArrayList<>();
 
-    // Constructors
     public Blog() {}
 
     public Blog(String title, String content, String author, String category) {
@@ -43,7 +42,6 @@ public class Blog {
         return Objects.hash(getId(), getTitle(), getContent(), getAuthor(), getCategory(), getCreatedAt(), getComments());
     }
 
-    // Getters and Setters
     public String getId() { return id; }
     public void setId(String id) { this.id = id; }
 
