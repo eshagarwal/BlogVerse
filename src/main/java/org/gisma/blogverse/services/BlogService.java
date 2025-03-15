@@ -104,4 +104,14 @@ public class BlogService {
     public List<Blog> getBlogsByAuthor(String author) {
         return blogRepository.findByAuthor(author);
     }
+
+    // Delete blogs by author
+    public boolean deleteBlogsByAuthor(String authorName) {
+        List<Blog> blogs = blogRepository.findByAuthor(authorName);
+        if (blogs.isEmpty()) {
+            return false;
+        }
+        blogRepository.deleteByAuthor(authorName);
+        return true;
+    }
 }
