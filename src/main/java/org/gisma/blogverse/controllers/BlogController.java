@@ -86,14 +86,14 @@ public class BlogController {
     @GetMapping("/daterange")
     public ResponseEntity<List<Blog>> getBlogsByDateRange(@RequestParam("start") String start, @RequestParam("end") String end) {
         try {
-            LocalDateTime startDate = LocalDateTime.parse(start); // Parse the string to LocalDateTime
+            LocalDateTime startDate = LocalDateTime.parse(start);
             LocalDateTime endDate = LocalDateTime.parse(end);
 
             List<Blog> blogs = blogService.getBlogsByDateRange(startDate, endDate);
 
             return blogs.isEmpty() ? ResponseEntity.notFound().build() : ResponseEntity.ok(blogs);
         } catch (Exception e) {
-            return ResponseEntity.badRequest().body(null);  // Return bad request if date parsing fails
+            return ResponseEntity.badRequest().body(null);
         }
     }
 
