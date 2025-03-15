@@ -28,4 +28,7 @@ public interface BlogRepository extends MongoRepository<Blog, String> {
     })
     List<Blog> findTop5ByMostComments();
 
+    // Get blogs by author
+    List<Blog> findByAuthor(String author);
+
 }
