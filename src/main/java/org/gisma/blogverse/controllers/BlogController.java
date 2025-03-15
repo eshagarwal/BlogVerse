@@ -157,4 +157,17 @@ public class BlogController {
         return ResponseEntity.ok(blogs);
     }
 
+    // Delete blogs by author
+    @DeleteMapping("/author/{authorName}")
+    public ResponseEntity<String> deleteBlogsByAuthor(@PathVariable String authorName) {
+        boolean deleted = blogService.deleteBlogsByAuthor(authorName);
+
+        if (deleted) {
+            return ResponseEntity.ok("All blogs by " + authorName + " have been deleted.");
+        } else {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND)
+                    .body("Author does not exist or has no blogs.");
+        }
+    }
+
 }
