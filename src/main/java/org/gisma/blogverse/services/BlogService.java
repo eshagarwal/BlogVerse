@@ -99,4 +99,9 @@ public class BlogService {
     public List<Blog> getMostCommentedBlogs() {
         return blogRepository.findTop5ByMostComments();
     }
+
+    // Get blogs by author
+    public List<Blog> getBlogsByAuthor(String author) {
+        return blogRepository.findByAuthor(author);
+    }
 }
