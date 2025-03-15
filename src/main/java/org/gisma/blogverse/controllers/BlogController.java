@@ -147,4 +147,14 @@ public class BlogController {
         return ResponseEntity.ok(blogs);
     }
 
+    // Get blogs by author
+    @GetMapping("/author/{authorName}")
+    public ResponseEntity<?> getBlogsByAuthor(@PathVariable String authorName) {
+        List<Blog> blogs = blogService.getBlogsByAuthor(authorName);
+        if (blogs == null || blogs.isEmpty()) {
+            return ResponseEntity.status(404).body("Author does not exist or has no blogs.");
+        }
+        return ResponseEntity.ok(blogs);
+    }
+
 }
