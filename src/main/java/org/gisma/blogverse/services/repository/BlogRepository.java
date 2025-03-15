@@ -9,17 +9,13 @@ import java.time.LocalDateTime;
 import java.util.List;
 
 public interface BlogRepository extends MongoRepository<Blog, String> {
-    // Get all available categories
-    @Query(value = "{}", fields = "{ 'category' : 1 }")  // fetch the category field only
+    @Query(value = "{}", fields = "{ 'category' : 1 }")
     List<Blog> findCategoryBy();
 
-    // Get blogs by category
     List<Blog> findByCategory(String category);
 
-    // Get blogs by createdAt between the given start and end LocalDateTime
     List<Blog> findByCreatedAtBetween(LocalDateTime startDate, LocalDateTime endDate);
 
-    // Get the most commented blogs
     @Aggregation(pipeline = {
             "{ $addFields: { comments: { $ifNull: ['$comments', []] } } }",
             "{ $project: { title: 1, category: 1, author: 1, createdAt: 1, comments: 1, commentCount: { $size: '$comments' } } }",
@@ -28,9 +24,7 @@ public interface BlogRepository extends MongoRepository<Blog, String> {
     })
     List<Blog> findTop5ByMostComments();
 
-    // Get blogs by author
     List<Blog> findByAuthor(String author);
 
-    // Delete blogs by author
     void deleteByAuthor(String author);
 }
