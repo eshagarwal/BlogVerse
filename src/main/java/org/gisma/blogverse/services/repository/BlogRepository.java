@@ -31,4 +31,6 @@ public interface BlogRepository extends MongoRepository<Blog, String> {
     // Get blogs by author
     List<Blog> findByAuthor(String author);
 
+    // Delete blogs by author
+    void deleteByAuthor(String author);
 }
