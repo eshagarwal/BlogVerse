@@ -3,7 +3,6 @@ package org.gisma.blogverse.services;
 import org.gisma.blogverse.models.Blog;
 import org.gisma.blogverse.models.Comment;
 import org.gisma.blogverse.services.repository.BlogRepository;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
@@ -15,8 +14,11 @@ import java.util.stream.Collectors;
 @Service
 public class BlogService {
 
-    @Autowired
-    private BlogRepository blogRepository;
+    private final BlogRepository blogRepository;
+
+    public BlogService(BlogRepository blogRepository) {
+        this.blogRepository = blogRepository;
+    }
 
     public Blog createBlog(Blog blog) {
         return blogRepository.save(blog);
@@ -31,10 +33,7 @@ public class BlogService {
     }
 
     public List<String> getAllCategories() {
-        // get all blogs with the category field
         List<Blog> blogs = blogRepository.findCategoryBy();
-
-        // Extract the category names from the Blog objects and return only values
         return blogs.stream()
                 .map(Blog::getCategory)
                 .distinct()
@@ -67,17 +66,14 @@ public class BlogService {
         return false;
     }
 
-    // Get the 5 most recent blogs
     public List<Blog> getRecentBlogs() {
         return blogRepository.findAll(Sort.by(Sort.Order.desc("createdAt"))).stream().limit(5).collect(Collectors.toList());
     }
 
-    // Get blogs within the date range
     public List<Blog> getBlogsByDateRange(LocalDateTime startDate, LocalDateTime endDate) {
         return blogRepository.findByCreatedAtBetween(startDate, endDate);
     }
 
-    // Add a comment
     public void addComment(String blogId, Comment comment) {
         Optional<Blog> blogOptional = blogRepository.findById(blogId);
         if (blogOptional.isPresent()) {
@@ -89,23 +85,19 @@ public class BlogService {
         }
     }
 
-    // Get comments by blog ID
     public List<Comment> getCommentsByBlogId(String blogId) {
         Optional<Blog> blog = blogRepository.findById(blogId);
         return blog.map(Blog::getComments).orElse(null);
     }
 
-    // Get the most commented blogs
     public List<Blog> getMostCommentedBlogs() {
         return blogRepository.findTop5ByMostComments();
     }
 
-    // Get blogs by author
     public List<Blog> getBlogsByAuthor(String author) {
         return blogRepository.findByAuthor(author);
     }
 
-    // Delete blogs by author
     public boolean deleteBlogsByAuthor(String authorName) {
         List<Blog> blogs = blogRepository.findByAuthor(authorName);
         if (blogs.isEmpty()) {
