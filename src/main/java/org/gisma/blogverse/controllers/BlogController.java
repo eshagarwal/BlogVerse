@@ -3,7 +3,6 @@ package org.gisma.blogverse.controllers;
 import org.gisma.blogverse.models.Blog;
 import org.gisma.blogverse.models.Comment;
 import org.gisma.blogverse.services.BlogService;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -17,8 +16,11 @@ import java.util.Optional;
 @RequestMapping("/blogs")
 public class BlogController {
 
-    @Autowired
-    private BlogService blogService;
+    private final BlogService blogService;
+
+    public BlogController(BlogService blogService) {
+        this.blogService = blogService;
+    }
 
     // Add a new blog
     @PostMapping
