@@ -9,7 +9,6 @@ import org.springframework.stereotype.Service;
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
-import java.util.stream.Collectors;
 
 @Service
 public class BlogService {
@@ -34,10 +33,11 @@ public class BlogService {
 
     public List<String> getAllCategories() {
         List<Blog> blogs = blogRepository.findCategoryBy();
-        return blogs.stream()
-                .map(Blog::getCategory)
+        return blogs
+                .stream()
+                .map(b -> b.getCategory())
                 .distinct()
-                .collect(Collectors.toList());
+                .toList();
     }
 
     public List<Blog> getBlogsByCategory(String category) {
@@ -48,10 +48,19 @@ public class BlogService {
         Optional<Blog> existingBlog = blogRepository.findById(id);
         if (existingBlog.isPresent()) {
             Blog blog = existingBlog.get();
-            blog.setTitle(blogDetails.getTitle());
-            blog.setContent(blogDetails.getContent());
-            blog.setAuthor(blogDetails.getAuthor());
-            blog.setCategory(blogDetails.getCategory());
+
+            if (blogDetails.getTitle() != null)
+                blog.setTitle(blogDetails.getTitle());
+
+            if (blogDetails.getContent() != null)
+                blog.setContent(blogDetails.getContent());
+
+            if (blogDetails.getAuthor() != null)
+                blog.setAuthor(blogDetails.getAuthor());
+
+            if (blogDetails.getCategory() != null)
+                blog.setCategory(blogDetails.getCategory());
+
             return blogRepository.save(blog);
         }
         return null;
@@ -67,27 +76,32 @@ public class BlogService {
     }
 
     public List<Blog> getRecentBlogs() {
-        return blogRepository.findAll(Sort.by(Sort.Order.desc("createdAt"))).stream().limit(5).collect(Collectors.toList());
+        return blogRepository
+                .findAll(Sort.by(Sort.Order.desc("createdAt")))
+                .stream()
+                .limit(5)
+                .toList();
     }
 
     public List<Blog> getBlogsByDateRange(LocalDateTime startDate, LocalDateTime endDate) {
         return blogRepository.findByCreatedAtBetween(startDate, endDate);
     }
 
-    public void addComment(String blogId, Comment comment) {
+    public boolean addComment(String blogId, Comment comment) {
         Optional<Blog> blogOptional = blogRepository.findById(blogId);
         if (blogOptional.isPresent()) {
             Blog blog = blogOptional.get();
             blog.getComments().add(comment);
             blogRepository.save(blog);
+            return true;
         } else {
-            throw new RuntimeException("Blog not found");
+            return false;
         }
     }
 
     public List<Comment> getCommentsByBlogId(String blogId) {
         Optional<Blog> blog = blogRepository.findById(blogId);
-        return blog.map(Blog::getComments).orElse(null);
+        return blog.map(b -> b.getComments()).orElse(null);
     }
 
     public List<Blog> getMostCommentedBlogs() {
