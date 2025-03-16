@@ -1,5 +1,6 @@
 package org.gisma.blogverse.controllers;
 
+import org.gisma.blogverse.exceptions.InvalidDateProvidedException;
 import org.gisma.blogverse.models.Blog;
 import org.gisma.blogverse.models.Comment;
 import org.gisma.blogverse.services.BlogService;
@@ -8,7 +9,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.time.LocalDateTime;
-import java.util.Collections;
+import java.time.format.DateTimeParseException;
 import java.util.List;
 import java.util.Optional;
 
@@ -49,20 +50,22 @@ public class BlogController {
 
     // Get a blog by ID
     @GetMapping("/{id}")
-    public ResponseEntity<?> getBlogById(@PathVariable String id) {
+    public ResponseEntity<Object> getBlogById(@PathVariable String id) {
         Optional<Blog> blog = blogService.getBlogById(id);
         if (blog.isPresent()) {
             return ResponseEntity.ok(blog.get());
-        } else {
-            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Blog with ID " + id + " does not exist.");
         }
+        return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Blog with ID " + id + " does not exist.");
     }
 
     // Get all the available categories
     @GetMapping("/categories")
-    public ResponseEntity<List<String>> getAllCategories() {
+    public ResponseEntity<Object> getAllCategories() {
         List<String> categories = blogService.getAllCategories();
-        return categories.isEmpty() ? ResponseEntity.notFound().build() : ResponseEntity.ok(categories);
+        if (categories.isEmpty()) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("No blogs found");
+        }
+        return ResponseEntity.ok(categories);
     }
 
     // Get blogs by category
@@ -77,23 +80,37 @@ public class BlogController {
 
     // Get the 5 most recent blogs
     @GetMapping("/recent")
-    public ResponseEntity<List<Blog>> getRecentBlogs() {
+    public ResponseEntity<Object> getRecentBlogs() {
         List<Blog> blogs = blogService.getRecentBlogs();
-        return blogs.isEmpty() ? ResponseEntity.notFound().build() : ResponseEntity.ok(blogs);
+        if (blogs.isEmpty()) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("No blogs found");
+        }
+        return ResponseEntity.ok(blogs);
     }
 
     // Fetch blogs within a given date range
     @GetMapping("/daterange")
-    public ResponseEntity<List<Blog>> getBlogsByDateRange(@RequestParam("start") String start, @RequestParam("end") String end) {
+    public ResponseEntity<Object> getBlogsByDateRange(@RequestParam("start") String start, @RequestParam("end") String end) {
         try {
             LocalDateTime startDate = LocalDateTime.parse(start);
             LocalDateTime endDate = LocalDateTime.parse(end);
 
+            if (endDate.isAfter(LocalDateTime.now())) {
+                return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("End date cannot be in the future.");
+            }
+            if (startDate.isAfter(endDate)) {
+                return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Start date cannot be after end date.");
+            }
+
             List<Blog> blogs = blogService.getBlogsByDateRange(startDate, endDate);
 
-            return blogs.isEmpty() ? ResponseEntity.notFound().build() : ResponseEntity.ok(blogs);
-        } catch (Exception e) {
-            return ResponseEntity.badRequest().body(null);
+            if (blogs.isEmpty()) {
+                return ResponseEntity.status(HttpStatus.NOT_FOUND).body("No blogs found within the given date range.");
+            }
+
+            return ResponseEntity.ok(blogs);
+        } catch (DateTimeParseException e) {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Provided date was in incorrect format.");
         }
     }
 
@@ -121,30 +138,32 @@ public class BlogController {
     // Add a comment
     @PostMapping("/{id}/comments")
     public ResponseEntity<String> addComment(@PathVariable String id, @RequestBody Comment comment) {
-        try {
-            blogService.addComment(id, comment);
-            return ResponseEntity.ok("Comment added successfully!");
-        } catch (RuntimeException e) {
-            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(e.getMessage());
+        boolean isCommentAdded = blogService.addComment(id, comment);
+        if (!isCommentAdded) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Blog with ID " + id + " does not exist.");
         }
+        return ResponseEntity.ok("Comment added successfully!");
     }
 
     // Get all comments for a blog
     @GetMapping("/{id}/comments")
     public ResponseEntity<?> getComments(@PathVariable String id) {
         List<Comment> comments = blogService.getCommentsByBlogId(id);
-        if (comments == null || comments.isEmpty()) {
-            return ResponseEntity.status(HttpStatus.OK).body("No comments on this blog.");
+        if (comments == null) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Blog with ID " + id + " does not exist.");
+        }
+        if (comments.isEmpty()) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("No comments found for blog with ID " + id);
         }
         return ResponseEntity.ok(comments);
     }
 
     // Get the most commented blogs
     @GetMapping("/most-commented")
-    public ResponseEntity<List<Blog>> getMostCommentedBlogs() {
+    public ResponseEntity<Object> getMostCommentedBlogs() {
         List<Blog> blogs = blogService.getMostCommentedBlogs();
         if (blogs.isEmpty()) {
-            return ResponseEntity.status(HttpStatus.OK).body(Collections.emptyList());
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("No blogs found");
         }
         return ResponseEntity.ok(blogs);
     }
@@ -153,8 +172,11 @@ public class BlogController {
     @GetMapping("/author/{authorName}")
     public ResponseEntity<?> getBlogsByAuthor(@PathVariable String authorName) {
         List<Blog> blogs = blogService.getBlogsByAuthor(authorName);
-        if (blogs == null || blogs.isEmpty()) {
-            return ResponseEntity.status(404).body("Author does not exist or has no blogs.");
+        if (blogs == null) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Author does not exist.");
+        }
+        if (blogs.isEmpty()) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("No blogs found for author " + authorName);
         }
         return ResponseEntity.ok(blogs);
     }
@@ -167,8 +189,7 @@ public class BlogController {
         if (deleted) {
             return ResponseEntity.ok("All blogs by " + authorName + " have been deleted.");
         } else {
-            return ResponseEntity.status(HttpStatus.NOT_FOUND)
-                    .body("Author does not exist or has no blogs.");
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Author does not exist or has no blogs.");
         }
     }
 
