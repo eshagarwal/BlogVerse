@@ -1,6 +1,5 @@
 package org.gisma.blogverse.controllers;
 
-import org.gisma.blogverse.exceptions.InvalidDateProvidedException;
 import org.gisma.blogverse.models.Blog;
 import org.gisma.blogverse.models.Comment;
 import org.gisma.blogverse.services.BlogService;
