@@ -1,9 +1,8 @@
 package org.gisma.blogverse.models;
 
-import org.springframework.data.mongodb.core.mapping.Document;
 import java.util.Objects;
 
-@Document(collection = "comments")
+// Embedded inside the blogs collection itself
 public class Comment {
 
     private String author;
