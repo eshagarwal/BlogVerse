@@ -2,7 +2,7 @@ package org.gisma.blogverse.services;
 
 import org.gisma.blogverse.models.Blog;
 import org.gisma.blogverse.models.Comment;
-import org.gisma.blogverse.services.repository.BlogRepository;
+import org.gisma.blogverse.repository.BlogRepository;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 

@@ -1,4 +1,4 @@
-package org.gisma.blogverse.services.repository;
+package org.gisma.blogverse.repository;
 
 import org.gisma.blogverse.models.Blog;
 import org.springframework.data.mongodb.repository.MongoRepository;
