@@ -1,0 +1,316 @@
+{
+	"info": {
+		"_postman_id": "aaf1dba8-2417-43ac-94ad-8f77c7a54337",
+		"name": "BlogVerse",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "43061082"
+	},
+	"item": [
+		{
+			"name": "a new blog",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"title\": \"Embracing the New Dawn: A Fresh Start\",\n    \"content\": \"Every sunrise brings an opportunity to reset, to embrace new challenges, and to grow beyond yesterday's limits. Whether it's learning a new skill, exploring a different perspective, or simply taking a deep breath and appreciating the moment, each day is a fresh beginning. Let's step into today with optimism and enthusiasm, making the most of every second.\",\n    \"author\": \"Morning Muse\",\n    \"category\": \"Motivation\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "localhost:8080/blogs",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"blogs"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "all blogs",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "localhost:8080/blogs",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"blogs"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "blog by id",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "localhost:8080/blogs/67dffe0df6202a11119e189e",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"blogs",
+						"67dffe0df6202a11119e189e"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "all available category names",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "localhost:8080/blogs/categories",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"blogs",
+						"categories"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "blogs by category",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "localhost:8080/blogs/category/Motivation",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"blogs",
+						"category",
+						"Motivation"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "5 recent blogs",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "localhost:8080/blogs/recent",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"blogs",
+						"recent"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "blogs within a daterange",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "localhost:8080/blogs/daterange?start=2025-03-23T13:26:52&end=2025-03-23T13:26:56",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"blogs",
+						"daterange"
+					],
+					"query": [
+						{
+							"key": "start",
+							"value": "2025-03-23T13:26:52"
+						},
+						{
+							"key": "end",
+							"value": "2025-03-23T13:26:56"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "update a blog by id",
+			"request": {
+				"method": "PUT",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \n    \"category\": \"updated-category\"\n}\n",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "localhost:8080/blogs/67dffe0df6202a11119e189e",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"blogs",
+						"67dffe0df6202a11119e189e"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "a blog by id",
+			"request": {
+				"method": "DELETE",
+				"header": [],
+				"url": {
+					"raw": "localhost:8080/blogs/67d1fc8d507b4c4e9c962cc3",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"blogs",
+						"67d1fc8d507b4c4e9c962cc3"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "a comment",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"author\": \"Julia\",\n    \"text\": \"I like your blog content!\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "localhost:8080/blogs/67dffe0df6202a11119e189e/comments",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"blogs",
+						"67dffe0df6202a11119e189e",
+						"comments"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "all comments for a blog",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "localhost:8080/blogs/67dffe0df6202a11119e189e/comments",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"blogs",
+						"67dffe0df6202a11119e189e",
+						"comments"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "most-commented blogs",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "localhost:8080/blogs/most-commented",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"blogs",
+						"most-commented"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "blogs by author name",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "localhost:8080/blogs/author/Morning%20Muse",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"blogs",
+						"author",
+						"Morning%20Muse"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "all blogs by author",
+			"request": {
+				"method": "DELETE",
+				"header": [],
+				"url": {
+					"raw": "localhost:8080/blogs/author/John%20Doe",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"blogs",
+						"author",
+						"John%20Doe"
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}
