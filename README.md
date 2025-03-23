@@ -15,22 +15,8 @@ BlogVerse allows users to create, read, update, and delete blogs, manage categor
 
 ## Endpoints
 
-| **Method** | **Endpoint**                                       | **Purpose**                                   |
-|------------|----------------------------------------------------|-----------------------------------------------|
-| **POST**   | `/blogs`                                           | Create a new blog                             |
-| **GET**    | `/blogs`                                           | Get all blogs                                 |
-| **GET**    | `/blogs/{id}`                                      | Get a specific blog                           |
-| **PUT**    | `/blogs/{id}`                                      | Update a blog                                 |
-| **DELETE** | `/blogs/{id}`                                      | Delete a blog                                 |
-| **GET**    | `/blogs/recent`                                    | Get the 5 most recent blogs                   |
-| **GET**    | `/blogs/daterange?start=YYYY-MM-DD&end=YYYY-MM-DD` | Get blogs within a date range                 |
-| **GET**    | `/categories`                                      | Get all available categories                  |
-| **GET**    | `/blogs/category/{category-name}`                  | Get blogs by category                         |
-| **POST**   | `/blogs/{id}/comments`                             | Add a comment to a blog                       |
-| **GET**    | `/blogs/{id}/comments`                             | Get all comments for a blog                   |
-| **GET**    | `/blogs/most-commented`                            | Get blogs with the highest number of comments |
-| **GET**    | `/blogs/author/{authorName}`                       | Get blogs by a specific author                |
-| **DELETE** | `/blogs/author/{authorName}`                       | Delete blogs by a specific author             |
+<img width="678" alt="Screenshot 2025-03-23 at 5 44 15 PM" src="https://github.com/user-attachments/assets/b79111fb-f75f-409a-8de3-b7e8a9042254" />
+
 
 ## Setup and Installation
 
