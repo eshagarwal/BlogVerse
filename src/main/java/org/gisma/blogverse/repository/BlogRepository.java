@@ -18,7 +18,7 @@ public interface BlogRepository extends MongoRepository<Blog, String> {
 
     @Aggregation(pipeline = {
             "{ $addFields: { comments: { $ifNull: ['$comments', []] } } }",
-            "{ $project: { title: 1, category: 1, author: 1, createdAt: 1, comments: 1, commentCount: { $size: '$comments' } } }",
+            "{ $project: { title: 1, content: 1, category: 1, author: 1, createdAt: 1, comments: 1, commentCount: { $size: '$comments' } } }",
             "{ $sort: { commentCount: -1 } }",
             "{ $limit: 5 }"
     })
